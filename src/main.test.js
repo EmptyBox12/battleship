@@ -1,9 +1,10 @@
 import { Ship } from "./ship.js";
+import {GameBoard} from "./gameBoard.js";
 
 test("ship should return array as long as length",()=>{
   const length = 3;
   const admiral = new Ship(length);
-  expect(admiral.getShip().length).toBe(3);
+  expect(admiral.getShipLength()).toBe(3);
 });
 test("ship should have an array of objects with hit property",()=>{
   const admiral = new Ship(2);
@@ -19,4 +20,45 @@ test("ship should be sinkable",()=>{
   const admiral = new Ship(1);
   admiral.hit(0);
   expect(admiral.isSunk()).toBe(true);
+});
+test("gameboard returns 2d array", ()=>{
+  const board = new GameBoard();
+  expect(board.getGameBoard().length).toBe(10);
+  expect(board.getGameBoard()[0].length).toBe(10);
+});
+test("gameboard array elements has the right object",()=>{
+  const board = new GameBoard();
+  const object = {shipName: undefined, shipIndex: undefined}
+  expect(board.getGameBoard()[0][0]).toEqual(object);
+});
+test("gameboard can place ship",()=>{
+  const board = new GameBoard();
+  const admiral = new Ship(2);
+  let x = 1;
+  let y = 2;
+  board.placeShip(admiral, x, y);
+  expect(board.getGameBoard()[2][1]).toEqual({shipName: admiral, shipIndex: 0});
+  expect(board.getGameBoard()[3][1]).toEqual({shipName: admiral, shipIndex: 1});
+});
+test("gameboard can receieve attack when there is a ship", ()=>{
+  let board = new GameBoard();
+  let admiral = new Ship(2);
+  board.placeShip(admiral, 0, 0);
+  board.receiveAttack(0,1);
+  expect(admiral.getShip()[1].hit).toBe(true);
+});
+test("gameboard keeps track of missed attacks", ()=>{
+  let board = new GameBoard();
+  let object = {x:0,y:0};
+  board.receiveAttack(0,0);
+  expect(board.getMissedAttacksArray()[0]).toEqual(object)
+});
+test("gameboard can check if every ship is sunk", ()=>{
+  let board = new GameBoard();
+  let admiral = new Ship(1);
+  let cat = new Ship(1);
+  board.placeShip(admiral, 0, 0);
+  board.placeShip(cat,3,4);
+  board.receiveAttack(0,0)
+  expect(board.checkIfAllShipSunk()).toBe(false);
 });
