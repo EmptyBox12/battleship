@@ -1,5 +1,6 @@
 import { Ship } from "./ship.js";
 import {GameBoard} from "./gameBoard.js";
+import {Player} from "./player.js";
 
 test("ship should return array as long as length",()=>{
   const length = 3;
@@ -61,4 +62,34 @@ test("gameboard can check if every ship is sunk", ()=>{
   board.placeShip(cat,3,4);
   board.receiveAttack(0,0)
   expect(board.checkIfAllShipSunk()).toBe(false);
+});
+test("player should have name", ()=>{
+  const player1 = new Player("John");
+  expect(player1.getName()).toMatch("John");
+});
+test("player ending turn starts enemy turn", ()=>{
+  const player1 = new Player("John");
+  const player2 = new Player("Admin");
+  player1.endTurn(player2);
+  expect(player1.checkTurn()).toBe(false);
+  expect(player2.checkTurn()).toBe(true);
+});
+test("player can attack board if they have turn", ()=>{
+  const player1 = new Player("John");
+  const player2 = new Player("Kuzuha");
+  const board = new GameBoard();
+  const admiral = new Ship(1);
+  board.placeShip(admiral, 0, 0);
+  player1.attack(board, 0, 0, player2);
+  expect(admiral.getShip()[0].hit).toBe(true);  
+});
+test("player attacking ends turn and starts enemy turn", ()=>{
+  const player1 = new Player("John");
+  const player2 = new Player("Kuzuha");
+  const board = new GameBoard();
+  const admiral = new Ship(1);
+  board.placeShip(admiral, 0, 0);
+  player1.attack(board, 0, 0, player2);
+  expect(player1.checkTurn()).toBe(false);
+  expect(player2.checkTurn()).toBe(true);
 });
