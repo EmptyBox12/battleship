@@ -12,8 +12,8 @@ export class AI extends Player{
     if(this.checkTurn()){
       let numberArray = []
       while(true){
-        let firstNumber = Math.floor((Math.random() * 10)+1);
-        let secondNumber = Math.floor((Math.random() * 10)+1);
+        let firstNumber = Math.floor((Math.random() * 10));
+        let secondNumber = Math.floor((Math.random() * 10));
         numberArray = [firstNumber,secondNumber];
         if(!(this.attackArray.includes(numberArray))){
           this.attackArray.push(numberArray);

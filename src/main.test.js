@@ -76,7 +76,7 @@ test("player should have name", () => {
 });
 test("player ending turn starts enemy turn", () => {
   const player1 = new Player("John");
-  const player2 = new Player("Admin");
+  const player2 = new Player("Kuzuha");
   player1.endTurn(player2);
   expect(player1.checkTurn()).toBe(false);
   expect(player2.checkTurn()).toBe(true);
