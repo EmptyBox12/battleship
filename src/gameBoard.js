@@ -18,10 +18,19 @@ export class GameBoard {
   getGameBoard() {
     return this.gameBoardArray;
   }
+  chechIfShipPlacementIsValid(length, x, y) {
+    if (x > 10 || x < 0 || y > 10 || y < 0 || y + length > 10) {
+      return false;
+    } else {
+      return true;
+    }
+  }
   placeShip(ship, x, y) {
-    for (let i = 0; i < ship.getShipLength(); i++) {
-      this.gameBoardArray[y + i][x].shipName = ship;
-      this.gameBoardArray[y + i][x].shipIndex = i;
+    if (this.chechIfShipPlacementIsValid(ship.getShipLength(), x, y)) {
+      for (let i = 0; i < ship.getShipLength(); i++) {
+        this.gameBoardArray[y + i][x].shipName = ship;
+        this.gameBoardArray[y + i][x].shipIndex = i;
+      }
     }
   }
   receiveAttack(x, y) {
@@ -42,7 +51,7 @@ export class GameBoard {
     this.gameBoardArray.forEach((item) => {
       item.forEach((element) => {
         if (element.shipName) {
-          if(element.shipName.isSunk()==false){
+          if (element.shipName.isSunk() == false) {
             key = false;
           }
         }

@@ -48,6 +48,17 @@ test("gameboard can place ship", () => {
     shipIndex: 1,
   });
 });
+test("gameboard won't place ship at invalid location", ()=>{
+  const board = new GameBoard();
+  const admiral = new Ship(2);
+  let x = 1;
+  let y = 9;
+  board.placeShip(admiral, x, y);
+  expect(board.getGameBoard()[9][1]).toEqual({
+    shipName: undefined,
+    shipIndex: undefined,
+  });
+});
 test("gameboard can receieve attack when there is a ship", () => {
   let board = new GameBoard();
   let admiral = new Ship(2);
