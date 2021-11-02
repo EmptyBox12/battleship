@@ -43,7 +43,26 @@ body{
 }
 .cell{
   border: #5A5A5A solid 1px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
+.hit{
+  background-color: tomato;
+  color: #5A5A5A;
+  font-size: large;
+  font-weight: bold;
+}
+.occupied{
+  background-color: rgb(89, 179, 71);
+}
+.missed{
+  background-color: lightblue;
+  color: #5A5A5A;
+  font-size: large;
+  font-weight: bold;
+}
+
 .footer{
   height: 5vh;
   background-color: indigo;
