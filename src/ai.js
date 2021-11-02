@@ -9,6 +9,7 @@ export class AI extends Player{
     this.attackArray = [];
   }
   generateRandomAttack(){
+    //might change array of arrays to array of objects for consistency
     if(this.checkTurn()){
       let numberArray = []
       while(true){
