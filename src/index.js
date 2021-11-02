@@ -52,8 +52,8 @@ aiBoard.placeShip(submarineAI, 3, 0);
 aiBoard.placeShip(patrolboatAI, 4, 0);
 
 //create boards
-createBoard("playerBoard", playerBoard);
-createBoard("aiBoard", aiBoard);
+createBoard("playerBoard");
+createBoard("aiBoard");
 
 function createBoard(boardName) {
   let boardClass = document.querySelector(`.${boardName}`);
