@@ -65,6 +65,7 @@ test("gameBoard won't place ship if the space is occupied", () => {
   const catShip = new Ship(3);
   board.placeShip(admiral,0,0);
   board.placeShip(catShip,0,1);
+  console.log(board.getGameBoard()[1][0]);
   expect(board.getGameBoard()[1][0]).toEqual({
     shipName: admiral,
     shipIndex: 1,

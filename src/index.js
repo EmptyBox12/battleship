@@ -17,26 +17,26 @@ import { AI } from "./ai.js";
 //if it is forEach it should take the x and y objects. and using them with the boardNameFromData, it should put an X.
 
 //Player Ships
-const carrier = new Ship(5);
-const battleship = new Ship(4);
-const destroyer = new Ship(3);
-const submarine = new Ship(3);
-const patrolboat = new Ship(2);
+let carrier = new Ship(5);
+let battleship = new Ship(4);
+let destroyer = new Ship(3);
+let submarine = new Ship(3);
+let patrolboat = new Ship(2);
 
 //AI Ships
-const carrierAI = new Ship(5);
-const battleshipAI = new Ship(4);
-const destroyerAI = new Ship(3);
-const submarineAI = new Ship(3);
-const patrolboatAI = new Ship(2);
+let carrierAI = new Ship(5);
+let battleshipAI = new Ship(4);
+let destroyerAI = new Ship(3);
+let submarineAI = new Ship(3);
+let patrolboatAI = new Ship(2);
 
 //gameBoards
-const playerBoard = new GameBoard();
-const aiBoard = new GameBoard();
+let playerBoard = new GameBoard();
+let aiBoard = new GameBoard();
 
 //create players
-const player = new Player("Kuzuha");
-const ai = new AI("AI", player, playerBoard);
+let player = new Player("Kuzuha");
+let ai = new AI("AI", player, playerBoard);
 
 //place player ships
 playerBoard.placeShip(carrier, 0, 0);
@@ -54,6 +54,8 @@ aiBoard.placeShip(patrolboatAI, 4, 0);
 //create boards
 createBoard("playerBoard");
 createBoard("aiBoard");
+updateDisplay("playerBoard", playerBoard);
+updateDisplay("aiBoard", aiBoard);
 
 function createBoard(boardName) {
   let boardClass = document.querySelector(`.${boardName}`);
@@ -76,11 +78,48 @@ function attackEvent(element) {
   let x = element.getAttribute("data-x");
   let y = element.getAttribute("data-y");
   player.attack(x, y, ai, aiBoard);
+  updateDisplay("aiBoard", aiBoard);
   if (aiBoard.checkIfAllShipSunk()) {
     alert("Player is the winner");
   }
+
   ai.generateRandomAttack();
+  updateDisplay("playerBoard", playerBoard);
   if (playerBoard.checkIfAllShipSunk()) {
     alert("AI is the winner");
   }
+}
+
+function updateDisplay(boardName, board) {
+  let boardArray = board.getGameBoard();
+  let missedAttacksArray = board.getMissedAttacksArray();
+
+  boardArray.forEach((row, y) => {
+    row.forEach((cell, x) => {
+      if (cell.shipName) {
+        if (cell.shipName.checkHit(cell.shipName.getShip()[cell.shipIndex]) == true) {
+          let selectedCell = document.querySelector(
+            `.${boardName} [data-x="${x}"][data-y ="${y}"]`
+          );
+          selectedCell.textContent = "X";
+          selectedCell.classList.add("hit");
+          selectedCell.classList.remove("occupied");
+        } else if (cell.shipName.checkHit(cell.shipName.getShip()[cell.shipIndex])  == false) {
+          if (boardName == "playerBoard") {
+            let selectedCell = document.querySelector(
+              `.${boardName} [data-x="${x}"][data-y ="${y}"]`
+            );
+            selectedCell.classList.add("occupied");
+          }
+        }
+      }
+    });
+  });
+  missedAttacksArray.forEach(attack =>{
+    let selectedCell = document.querySelector(
+      `.${boardName} [data-x="${attack.x}"][data-y ="${attack.y}"]`
+    );
+    selectedCell.textContent = "X";
+    selectedCell.classList.add("missed");
+  });
 }

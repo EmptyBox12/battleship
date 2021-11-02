@@ -23,12 +23,11 @@ export class GameBoard {
       return false;
     } else {
       for (let i = y; i < y + length; i++) {
-        if (this.gameBoardArray[i][x].shipName == undefined) {
-          return true;
-        } else {
+        if (this.gameBoardArray[i][x].shipName != undefined) {
           return false;
-        }
+        } 
       }
+      return true;
     }
   }
   placeShip(ship, x, y) {
