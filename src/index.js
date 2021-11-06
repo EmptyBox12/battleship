@@ -44,18 +44,37 @@ playerBoard.placeShip(battleship, 1, 0);
 playerBoard.placeShip(destroyer, 2, 0);
 playerBoard.placeShip(submarine, 3, 0);
 playerBoard.placeShip(patrolboat, 4, 0);
-//place ai ships (write random ship placer. like the random attack)
-aiBoard.placeShip(carrierAI, 0, 0);
-aiBoard.placeShip(battleshipAI, 1, 0);
-aiBoard.placeShip(destroyerAI, 2, 0);
-aiBoard.placeShip(submarineAI, 3, 0);
-aiBoard.placeShip(patrolboatAI, 4, 0);
+//randomly place ai ships
+placeAIShip(carrierAI);
+placeAIShip(battleshipAI);
+placeAIShip(destroyerAI);
+placeAIShip(submarineAI);
+placeAIShip(patrolboatAI);
 
-//create boards
+//create html boards
 createBoard("playerBoard");
 createBoard("aiBoard");
 updateDisplay("playerBoard", playerBoard);
 updateDisplay("aiBoard", aiBoard);
+
+function placeAIShip(ship) {
+  while (true) {
+    let numberArray = [];
+    let firstNumber = Math.floor(Math.random() * 10);
+    let secondNumber = Math.floor(Math.random() * 10);
+    numberArray = [firstNumber, secondNumber];
+    if (
+      aiBoard.chechIfShipPlacementIsValid(
+        ship.getShipLength(),
+        numberArray[0],
+        numberArray[1]
+      )
+    ) {
+      aiBoard.placeShip(ship, numberArray[0], numberArray[1]);
+      break;
+    }
+  }
+}
 
 function createBoard(boardName) {
   let boardClass = document.querySelector(`.${boardName}`);
@@ -97,14 +116,20 @@ function updateDisplay(boardName, board) {
   boardArray.forEach((row, y) => {
     row.forEach((cell, x) => {
       if (cell.shipName) {
-        if (cell.shipName.checkHit(cell.shipName.getShip()[cell.shipIndex]) == true) {
+        if (
+          cell.shipName.checkHit(cell.shipName.getShip()[cell.shipIndex]) ==
+          true
+        ) {
           let selectedCell = document.querySelector(
             `.${boardName} [data-x="${x}"][data-y ="${y}"]`
           );
           selectedCell.textContent = "X";
           selectedCell.classList.add("hit");
           selectedCell.classList.remove("occupied");
-        } else if (cell.shipName.checkHit(cell.shipName.getShip()[cell.shipIndex])  == false) {
+        } else if (
+          cell.shipName.checkHit(cell.shipName.getShip()[cell.shipIndex]) ==
+          false
+        ) {
           if (boardName == "playerBoard") {
             let selectedCell = document.querySelector(
               `.${boardName} [data-x="${x}"][data-y ="${y}"]`
@@ -115,7 +140,7 @@ function updateDisplay(boardName, board) {
       }
     });
   });
-  missedAttacksArray.forEach(attack =>{
+  missedAttacksArray.forEach((attack) => {
     let selectedCell = document.querySelector(
       `.${boardName} [data-x="${attack.x}"][data-y ="${attack.y}"]`
     );

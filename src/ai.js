@@ -9,19 +9,19 @@ export class AI extends Player{
     this.attackArray = [];
   }
   generateRandomAttack(){
-    //might change array of arrays to array of objects for consistency
     if(this.checkTurn()){
-      let numberArray = []
+      let numberObject = {x:undefined, y: undefined};
       while(true){
         let firstNumber = Math.floor((Math.random() * 10));
         let secondNumber = Math.floor((Math.random() * 10));
-        numberArray = [firstNumber,secondNumber];
-        if(!(this.attackArray.includes(numberArray))){
-          this.attackArray.push(numberArray);
+        numberObject.x = firstNumber;
+        numberObject.y = secondNumber;
+        if(!(this.attackArray.some(e => e.x == numberObject.x && e.y == numberObject.y))){
+          this.attackArray.push(numberObject);
+          this.attack(numberObject.x,numberObject.y,this.enemyPlayer, this.enemyBoard);
           break;
         }
       }
-     this.attack(numberArray[0],numberArray[1],this.enemyPlayer, this.enemyBoard);
     }
   }
   getAttackArray(){
