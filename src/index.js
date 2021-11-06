@@ -16,6 +16,8 @@ import { AI } from "./ai.js";
 //it should also check if the missed attacks array is bigger than 0.
 //if it is forEach it should take the x and y objects. and using them with the boardNameFromData, it should put an X.
 
+//need to add the ability for player to place ships. need to add end game modal and character create modal.
+
 //Player Ships
 let carrier = new Ship(5);
 let battleship = new Ship(4);
@@ -98,6 +100,7 @@ function attackEvent(element) {
   let y = element.getAttribute("data-y");
   player.attack(x, y, ai, aiBoard);
   updateDisplay("aiBoard", aiBoard);
+  element.style.pointerEvents = 'none';
   if (aiBoard.checkIfAllShipSunk()) {
     alert("Player is the winner");
   }
