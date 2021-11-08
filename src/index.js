@@ -3,20 +3,15 @@ import { GameBoard } from "./gameBoard.js";
 import { Player } from "./player.js";
 import { AI } from "./ai.js";
 
-//first create players, boards and then place ships.
-//then create grids using two for loops and give x,y and boardName data-sets(make it take boardname from outside. and use if to decide)
-//add classes to all grid items. make sure to add addEventListener(click) to enemyBoard
-//addEventListener should include player.attack(x,y, AI, aiBoard). Get coordinates from the data-sets
-//after attacking it should update display for the ai and generate attack for ai and then update the player's display.
+const battleshipHTML = document.querySelector("#battleship");
+const carrierHTML = document.querySelector("#carrier");
+const submarineHTML = document.querySelector("#submarine");
+const destroyerHTML = document.querySelector("#destroyer");
+const patrolboatHTML = document.querySelector("#patrolboat");
+const addShips = document.querySelector(".addShips");
+const aiSide = document.querySelector(".aiSide");
 
-//updateDisplay(boardNameFromData, gameBoard) it should get board array and loop through it with 2 for loops.
-//it should check if ship name is defined then it should check it that location is hit using shipIndex.
-//if it is hit it should add hit class which should make it red and put an X.
-//else it should make it green. (only if boardNameFromData is playerBoard. aiBoard shouldn't show ships)
-//it should also check if the missed attacks array is bigger than 0.
-//if it is forEach it should take the x and y objects. and using them with the boardNameFromData, it should put an X.
-
-//need to add the ability for player to place ships. need to add end game modal and character create modal.
+//need to add end game modal and character create modal.
 
 //Player Ships
 let carrier = new Ship(5);
@@ -24,35 +19,30 @@ let battleship = new Ship(4);
 let destroyer = new Ship(3);
 let submarine = new Ship(3);
 let patrolboat = new Ship(2);
-
 //AI Ships
 let carrierAI = new Ship(5);
 let battleshipAI = new Ship(4);
 let destroyerAI = new Ship(3);
 let submarineAI = new Ship(3);
 let patrolboatAI = new Ship(2);
-
 //gameBoards
 let playerBoard = new GameBoard();
 let aiBoard = new GameBoard();
-
 //create players
 let player = new Player("Kuzuha");
 let ai = new AI("AI", player, playerBoard);
-
-//place player ships
-playerBoard.placeShip(carrier, 0, 0);
-playerBoard.placeShip(battleship, 1, 0);
-playerBoard.placeShip(destroyer, 2, 0);
-playerBoard.placeShip(submarine, 3, 0);
-playerBoard.placeShip(patrolboat, 4, 0);
+//make player ships draggable
+dragStarter(battleshipHTML);
+dragStarter(carrierHTML);
+dragStarter(submarineHTML);
+dragStarter(destroyerHTML);
+dragStarter(patrolboatHTML);
 //randomly place ai ships
 placeAIShip(carrierAI);
 placeAIShip(battleshipAI);
 placeAIShip(destroyerAI);
 placeAIShip(submarineAI);
 placeAIShip(patrolboatAI);
-
 //create html boards
 createBoard("playerBoard");
 createBoard("aiBoard");
@@ -78,6 +68,80 @@ function placeAIShip(ship) {
   }
 }
 
+function dragStarter(element) {
+  element.addEventListener("dragstart", (e) => {
+    e.dataTransfer.setData("text/plain", e.target.id);
+  });
+}
+//ship adding through drop
+function dropShip(e) {
+  let data = e.dataTransfer.getData("text");
+  let x = parseInt(e.target.getAttribute("data-x"));
+  let y = parseInt(e.target.getAttribute("data-y"));
+  switch (data) {
+    case "battleship":
+      if (playerBoard.chechIfShipPlacementIsValid(battleship.length, x, y)) {
+        playerBoard.placeShip(battleship, x, y);
+        updateDisplay("playerBoard", playerBoard);
+        let ship = document.querySelector(`#${data}`);
+        addShips.removeChild(ship);
+        if(addShips.childNodes.length<=6){
+          addShips.style.display = "none";
+          aiSide.style.display = "flex";
+        }
+      }
+      break;
+    case "carrier":
+      if (playerBoard.chechIfShipPlacementIsValid(carrier.length, x, y)) {
+        playerBoard.placeShip(carrier, x, y);
+        updateDisplay("playerBoard", playerBoard);
+        let ship = document.querySelector(`#${data}`);
+        addShips.removeChild(ship);
+        if(addShips.childNodes.length<=6){
+          addShips.style.display = "none";
+          aiSide.style.display = "flex";
+        }
+      }
+      break;
+    case "submarine":
+      if (playerBoard.chechIfShipPlacementIsValid(submarine.length, x, y)) {
+        playerBoard.placeShip(submarine, x, y);
+        updateDisplay("playerBoard", playerBoard);
+        let ship = document.querySelector(`#${data}`);
+        addShips.removeChild(ship);
+        if(addShips.childNodes.length<=6){
+          addShips.style.display = "none";
+          aiSide.style.display = "flex";
+        }
+      }
+      break;
+    case "destroyer":
+      if (playerBoard.chechIfShipPlacementIsValid(destroyer.length, x, y)) {
+        playerBoard.placeShip(destroyer, x, y);
+        updateDisplay("playerBoard", playerBoard);
+        let ship = document.querySelector(`#${data}`);
+        addShips.removeChild(ship);
+        if(addShips.childNodes.length<=6){
+          addShips.style.display = "none";
+          aiSide.style.display = "flex";
+        }
+      }
+      break;
+    case "patrolboat":
+      if (playerBoard.chechIfShipPlacementIsValid(patrolboat.length, x, y)) {
+        playerBoard.placeShip(patrolboat, x, y);
+        updateDisplay("playerBoard", playerBoard);
+        let ship = document.querySelector(`#${data}`);
+        addShips.removeChild(ship);
+        if(addShips.childNodes.length<=6){
+          addShips.style.display = "none";
+          aiSide.style.display = "flex";
+        }
+      }
+      break;
+  }
+}
+
 function createBoard(boardName) {
   let boardClass = document.querySelector(`.${boardName}`);
   for (let i = 0; i < 10; i++) {
@@ -90,6 +154,14 @@ function createBoard(boardName) {
         cell.addEventListener("click", (e) => {
           attackEvent(e.target);
         });
+      } else if (boardName == "playerBoard") {
+        cell.addEventListener("dragover", (e) => {
+          e.preventDefault();
+        });
+        cell.addEventListener("drop", (e) => {
+          e.preventDefault();
+          dropShip(e);
+        });
       }
       boardClass.appendChild(cell);
     }
@@ -100,7 +172,7 @@ function attackEvent(element) {
   let y = element.getAttribute("data-y");
   player.attack(x, y, ai, aiBoard);
   updateDisplay("aiBoard", aiBoard);
-  element.style.pointerEvents = 'none';
+  element.style.pointerEvents = "none";
   if (aiBoard.checkIfAllShipSunk()) {
     alert("Player is the winner");
   }

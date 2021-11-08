@@ -33,7 +33,25 @@ body{
 .aiSide{
   width: 50vw;
   background-color: rgb(233, 240, 247);
+  display: none;
 }
+.addShips{
+  width: 50vw;
+  background-color: rgb(233, 240, 247);
+  display: flex;
+  box-sizing: border-box;
+  padding: 50px;
+  align-items: center;
+  justify-content: space-around;
+}
+
+.block{
+  background-color: rgb(89, 179, 71);
+  width: 50px;
+  height: 50px;
+  border: #5A5A5A solid 1px;
+}
+
 .playerBoard, .aiBoard{
   width: 35vw;
   height: 65vh;
