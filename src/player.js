@@ -6,6 +6,9 @@ export class Player {
   getName() {
     return this.name;
   }
+  setName(name){
+    this.name = name;
+  }
   endTurn(player2) {
     if (this.turn == true) {
       this.turn = false;

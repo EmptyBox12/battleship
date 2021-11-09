@@ -107,6 +107,11 @@ describe("player", () => {
     const player1 = new Player("John");
     expect(player1.getName()).toMatch("John");
   });
+  test("player can change name", ()=>{
+    const player1 = new Player("John");
+    player1.setName("Kuzuha");
+    expect(player1.getName()).toMatch("Kuzuha");
+  });
   test("player ending turn starts enemy turn", () => {
     const player1 = new Player("John");
     const player2 = new Player("Kuzuha");

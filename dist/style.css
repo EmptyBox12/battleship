@@ -89,3 +89,85 @@ body{
   justify-content: center;
   align-items: center;
 }
+#modal{
+  display: block;
+  position: fixed;
+  z-index: 9999;
+  padding-top:130px ;
+  height:100%;
+  width: 100%;
+  background-color: rgba(0,0,0,0.4);
+}
+#modalContent{
+  position: relative;
+  margin: auto;
+  background-color: #fefefe;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  box-sizing: border-box;
+  box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19);
+  padding: 30px;
+  border: 1px solid #888;
+  border-radius: 15px;
+  height:30%;
+  width: 340px;
+  font-size: 20px;
+  color: indigo;
+  font-weight: bolder;
+}
+#modalContent p{
+  padding: 0;
+  margin: 0;
+}
+#nameInput{
+  width: 100%;
+  height: 40px;
+  font-size: 20px;
+  color: indigo;
+  margin-top: 14px;
+  border: #5A5A5A 2px solid;
+  border-radius: 7px;
+}
+#submitButton, #playAgainButton{
+  width: 200px;
+  height: 40px;
+  align-self: center;
+  font-size: 20px;
+  font-weight: bold;
+  color: #333;
+  background-color: aliceblue;
+  border: 1px solid black;
+  border-radius: 10px;
+}
+#endGameModal{
+  display: none;
+  position: fixed;
+  z-index: 9999;
+  padding-top:130px ;
+  height:100%;
+  width: 100%;
+  background-color: rgba(0,0,0,0.4);
+}
+#endGameContent{
+  position: relative;
+  margin: auto;
+  background-color: #fefefe;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+  box-sizing: border-box;
+  box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19);
+  padding: 30px;
+  border: 1px solid #888;
+  border-radius: 15px;
+  height:30%;
+  width: 340px;
+  font-size: 23px;
+  color: indigo;
+  font-weight: bold;
+}
+#playAgainButton{
+  width: 150px;
+}

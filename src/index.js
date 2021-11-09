@@ -10,7 +10,14 @@ const destroyerHTML = document.querySelector("#destroyer");
 const patrolboatHTML = document.querySelector("#patrolboat");
 const addShips = document.querySelector(".addShips");
 const aiSide = document.querySelector(".aiSide");
-
+const nameModal = document.querySelector("#modal");
+const nameInput = document.querySelector("#nameInput");
+const modalForm = document.querySelector("#modalContent");
+const playerName = document.querySelector("#playerName");
+const endGameContent = document.querySelector("#endGameContent");
+const endGameModal = document.querySelector("#endGameModal");
+const playAgainButton = document.querySelector("#playAgainButton");
+const winnerText = document.querySelector("#winnerText");
 //need to add end game modal and character create modal.
 
 //Player Ships
@@ -48,6 +55,14 @@ createBoard("playerBoard");
 createBoard("aiBoard");
 updateDisplay("playerBoard", playerBoard);
 updateDisplay("aiBoard", aiBoard);
+//set player name
+modalForm.addEventListener("submit", (e) => {
+  e.preventDefault();
+  let name = nameInput.value || "Player 1";
+  player.setName(name);
+  playerName.textContent = `${player.getName()}'s Board`;
+  nameModal.style.display = "none";
+});
 
 function placeAIShip(ship) {
   while (true) {
@@ -85,7 +100,7 @@ function dropShip(e) {
         updateDisplay("playerBoard", playerBoard);
         let ship = document.querySelector(`#${data}`);
         addShips.removeChild(ship);
-        if(addShips.childNodes.length<=6){
+        if (addShips.childNodes.length <= 6) {
           addShips.style.display = "none";
           aiSide.style.display = "flex";
         }
@@ -97,7 +112,7 @@ function dropShip(e) {
         updateDisplay("playerBoard", playerBoard);
         let ship = document.querySelector(`#${data}`);
         addShips.removeChild(ship);
-        if(addShips.childNodes.length<=6){
+        if (addShips.childNodes.length <= 6) {
           addShips.style.display = "none";
           aiSide.style.display = "flex";
         }
@@ -109,7 +124,7 @@ function dropShip(e) {
         updateDisplay("playerBoard", playerBoard);
         let ship = document.querySelector(`#${data}`);
         addShips.removeChild(ship);
-        if(addShips.childNodes.length<=6){
+        if (addShips.childNodes.length <= 6) {
           addShips.style.display = "none";
           aiSide.style.display = "flex";
         }
@@ -121,7 +136,7 @@ function dropShip(e) {
         updateDisplay("playerBoard", playerBoard);
         let ship = document.querySelector(`#${data}`);
         addShips.removeChild(ship);
-        if(addShips.childNodes.length<=6){
+        if (addShips.childNodes.length <= 6) {
           addShips.style.display = "none";
           aiSide.style.display = "flex";
         }
@@ -133,7 +148,7 @@ function dropShip(e) {
         updateDisplay("playerBoard", playerBoard);
         let ship = document.querySelector(`#${data}`);
         addShips.removeChild(ship);
-        if(addShips.childNodes.length<=6){
+        if (addShips.childNodes.length <= 6) {
           addShips.style.display = "none";
           aiSide.style.display = "flex";
         }
@@ -174,16 +189,22 @@ function attackEvent(element) {
   updateDisplay("aiBoard", aiBoard);
   element.style.pointerEvents = "none";
   if (aiBoard.checkIfAllShipSunk()) {
-    alert("Player is the winner");
+    endGame(player.getName());
   }
-
   ai.generateRandomAttack();
   updateDisplay("playerBoard", playerBoard);
   if (playerBoard.checkIfAllShipSunk()) {
-    alert("AI is the winner");
+    endGame("AI");
   }
 }
-
+function endGame(winner) {
+  endGameModal.style.display = "block";
+  winnerText.textContent = `${winner} is the winner!!`;
+}
+//reloads the game
+playAgainButton.addEventListener("click", ()=>{
+  location.reload();
+});
 function updateDisplay(boardName, board) {
   let boardArray = board.getGameBoard();
   let missedAttacksArray = board.getMissedAttacksArray();

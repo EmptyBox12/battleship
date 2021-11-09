@@ -13,8 +13,23 @@
   </div>
 
   <div class="content">
+    <div id="modal">
+      <form id="modalContent" novalidate>
+        <div class="nameContainer">
+          <p>Enter your name:</p> 
+         <input required type="text" value="" placeholder="Admiral" id="nameInput" >  
+        </div>  
+      <input type="submit" value="Submit" id="submitButton">
+  </form>
+  </div>
+  <div id="endGameModal">
+    <div id="endGameContent">
+        <p id="winnerText">Placeholder is the Winner!!</p> 
+    <input type="submit" value="Play Again" id="playAgainButton">
+    </div>
+  </div>
     <div class="playerSide">
-      <p>Player Name's Board</p>
+      <p id="playerName">Player Name's Board</p>
       <div class="playerBoard"></div>
     </div>
     <div  class="addShips">
